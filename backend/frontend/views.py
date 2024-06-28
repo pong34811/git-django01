@@ -30,8 +30,12 @@ class UserLogoutView(LogoutView):
         logout(request)
         return redirect('login')
 
+
 def homepage(request):
+    if request.user.is_authenticated:
+        return redirect(reverse_lazy('user'))
     return render(request, 'userpage/index.html')
+
 def userpage(request):
     return render(request, 'userpage/userpage.html')
 
