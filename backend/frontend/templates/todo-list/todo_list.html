@@ -1,0 +1,17 @@
+<h1>asdas</h1>
+
+
+<table>
+    <tr>
+        <th>item</th>
+    </tr>
+    {% for todo in todos %}
+    <tr>
+        <td>{{todo.title}}</td>
+        <td><a href="{% url 'todo' todo.id %}">View</a></td>
+    </tr>
+    {% empty %}
+        <h3>No items</h3>
+    {% endfor %}
+
+</table>
