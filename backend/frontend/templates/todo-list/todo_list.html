@@ -1,14 +1,18 @@
 <h1>asdas</h1>
 
-
+<a href="/todo-create/">Add Todo</a>
 <table>
     <tr>
         <th>item</th>
+        <th></th>
+        <th></th>
     </tr>
     {% for todo in todos %}
     <tr>
         <td>{{todo.title}}</td>
         <td><a href="{% url 'todo' todo.id %}">View</a></td>
+        <td><a href="{% url 'todo-update' todo.id %}">Edite</a></td>
+        <td><a href="{% url 'todo-delete' todo.id %}">Delete</a></td>
     </tr>
     {% empty %}
         <h3>No items</h3>

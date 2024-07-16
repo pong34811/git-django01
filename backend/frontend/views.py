@@ -4,6 +4,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Create your views here.
 from django.urls import reverse_lazy
@@ -29,7 +30,31 @@ class UserLogoutView(LogoutView):
     def get(self, request):
         logout(request)
         return redirect('login')
+    
+class TodoCreate(CreateView):
+    model = Todo
+    template_name = 'todo-list/todo_form.html'
+    fields = ['title', 'description', 'complete']
+    success_url = reverse_lazy('todos')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(TodoCreate, self).form_valid(form)
+
+class TodoUpdate (UpdateView):
+    model = Todo
+    template_name = 'todo-list/todo_form.html'
+    fields = ['title', 'description', 'complete']
+    success_url = reverse_lazy('todos')
+
+class DeleteView(DeleteView):
+    model = Todo
+    template_name = 'todo-list/todo_confirm_delete.html'
+    context_object_name = 'todo'
+    success_url = reverse_lazy('todos')
+    def get_queryset(self):
+        owner = self.request.user
+        return self.model.objects.filter(user=owner)
 
 def homepage(request):
     if request.user.is_authenticated:
